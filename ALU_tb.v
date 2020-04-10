@@ -29,7 +29,17 @@ initial	// Test stimulus
     #10  a = 32'hFFFEFFFF; b =  32'h00000004; op = 4'hC;
     #10  a = 32'hFFFF7FFF; b =  32'h00000009; op = 4'hD;
     #10  a = 32'h80000000; b =  32'h0000001E; op = 4'hE;
-    #10  a = 32'h23337af9; b =  32'h89bfe491; op = 4'hF;
+
+    #10  a = 32'h23337af9; b =  32'h89bfe491; op = 4'hF; // empty
+
+    #10  a = 32'h00000000; b =  32'h00000000; op = 4'h0;
+
+    #10  a = 32'h62202dfd; b =  32'h15ff1963; op = 4'h2;
+    #10  a = 32'hd9de66ad; b =  32'h2edd939c; op = 4'h3;
+    #10  a = 32'h7fa3036c; b =  32'h3e845481; op = 4'h4;
+    #10  a = 32'h65b3a971; b =  32'hcc309e27; op = 4'h5;
+    #10  a = 32'hcbd67161; b =  32'h2fb505fb; op = 4'h6;
+
     #10 $stop;
   end
 
