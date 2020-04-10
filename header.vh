@@ -2,15 +2,17 @@
 //    File:       Header file
 //    Author:     Kevin Hoser and Alex Schendel
 //    Contact:    hoser21@up.edu and schendel21@up.edu
-//    Date:       2/28/2020
+//    Date:       04/09/2020
 // ---------------------------------------------------------------------
 
 `ifndef HEADER
 `define HEADER
 
-`define DFFE(q, d, en, clk) \
+//Macro to properly set the data of a reg in the RAM
+`define DFFE(q, d, en, reset, clk) \
     always @(posedge clk) begin \
-        q <= (en) ? d : q; \
+        if (reset) \
+            q <= (en) ? d : q; \
     end
 
 `endif

@@ -2,7 +2,7 @@
 //    Module:     Memory Controller Testbench
 //    Author:     Kevin Hoser and Alex Schendel
 //    Contact:    hoser21@up.edu and schendel21@up.edu
-//    Date:       2/28/2020
+//    Date:       04/09/2020
 // ---------------------------------------------------------------------
 
 `timescale 1ns / 1ns
@@ -21,12 +21,13 @@ wire [AWIDTH-1:0] Addr;
 wire Ready;
 
 reg clk;
+reg reset;
 reg [15:0] Addr_in;
 reg RW;
 reg Valid;
 
 MemControl dut(Data_in, Data, rdEn, wrEn, Addr, Ready, clk, Addr_in, RW, Valid);
-RAM ram(Data, clk, rdEn, wrEn, Addr);
+RAM ram(Data, clk, rdEn, wrEn, reset, Addr);
 
 // clock
 always begin
@@ -40,34 +41,45 @@ assign Data_in = (~RW) ? myData : {DWIDTH{1'bz}};
 
 initial
 begin
+    // reset RAM
+    reset = 1;
+    #5 reset = 0;
+    #5 reset = 1;
+
     // write to Addr 0
     myData = $random; Addr_in = 16'h0000; RW = 0; Valid = 1;
-    #20 wait(Ready);
+    wait(~Ready);
+    wait(Ready);
     Valid = 0;
 
     // write to Addr 1
-    #25 myData = $random; Addr_in = 16'h0001; RW = 0; Valid = 1;
-    #20 wait(Ready);
+    #20 myData = $random; Addr_in = 16'h0001; RW = 0; Valid = 1;
+    wait(~Ready);
+    wait(Ready);
     Valid = 0;
 
     // write to Addr 2
     #20 myData = $random; Addr_in = 16'h0002; RW = 0; Valid = 1;
-    #20 wait(Ready);
+    wait(~Ready);
+    wait(Ready);
     Valid = 0;
 
     // read from Addr 0
     #20 myData = {DWIDTH{1'bz}}; Addr_in = 16'h0000; RW = 1; Valid = 1;
-    #20 wait(Ready);
-    Valid = 0;
-
-    // read from Addr 1
-    #20 myData = {DWIDTH{1'bz}}; Addr_in = 16'h0001; RW = 1; Valid = 1;
-    #20 wait(Ready);
+    wait(~Ready);
+    wait(Ready);
     Valid = 0;
 
     // read from Addr 2
     #20 myData = {DWIDTH{1'bz}}; Addr_in = 16'h0002; RW = 1; Valid = 1;
-    #20 wait(Ready);
+    wait(~Ready);
+    wait(Ready);
+    Valid = 0;
+
+    // read from Addr 1
+    #20 myData = {DWIDTH{1'bz}}; Addr_in = 16'h0001; RW = 1; Valid = 1;
+    wait(~Ready);
+    wait(Ready);
     Valid = 0;
 end
 
