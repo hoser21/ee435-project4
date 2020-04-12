@@ -25,7 +25,7 @@ reg [DWIDTH-1:0] storage [MEMDEPTH-1:0];
 
 integer i;
 
-assign Data = (~wrEn) ? storage[Addr] : {DWIDTH{1'bz}};
+assign Data = (~wrEn && rdEn) ? storage[Addr] : {DWIDTH{1'bz}};
 
 //Resets the entire RAM by iterating through the registers
 always @(negedge reset) begin
